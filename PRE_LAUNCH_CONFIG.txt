@@ -1,0 +1,19 @@
+HOST OS — PRE LAUNCH CONFIG
+
+Da collegare prima della pubblicazione:
+1. URL checkout definitivo
+2. Email supporto
+3. Dati legali venditore
+4. Pagina/privacy definitiva se separata
+5. Video demo ufficiale (la sezione usa temporaneamente uno screenshot Report come poster)
+6. Eventuale dominio definitivo
+
+
+GITHUB / VERCEL
+- Repository target: maffeuomosky-rgb/host-os-site
+- Vercel project target: host-os-site
+- Branch production: main
+- Root directory: /
+- Framework preset: Other / Static
+- Build command: none
+- Output directory: none
