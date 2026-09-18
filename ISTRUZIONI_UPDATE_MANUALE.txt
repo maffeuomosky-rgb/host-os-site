@@ -1,0 +1,42 @@
+HOST OS — UPDATE MANUALE LANDING 1.2
+
+FILE DA SOSTITUIRE IN ROOT
+1. index.html
+2. styles.css
+3. script.js
+4. README.md
+5. PRE_LAUNCH_CONFIG.txt
+
+FILE NUOVI DA AGGIUNGERE IN ROOT
+6. legal.css
+7. termini.html
+8. privacy.html
+9. rimborsi.html
+10. LEGAL_DATA_TO_COMPLETE.txt
+
+ASSET DA SOSTITUIRE
+11. assets/host_os_package_official.png
+
+NON MODIFICARE / NON CANCELLARE
+- vercel.json
+- .gitignore
+- gli altri file dentro assets/
+
+PROCEDURA GITHUB
+A. Apri maffeuomosky-rgb/host-os-site.
+B. Per ogni file esistente usa Edit / Replace oppure Upload files e conferma la sostituzione.
+C. Aggiungi i quattro nuovi file legali e LEGAL_DATA_TO_COMPLETE.txt nella root.
+D. Dentro assets/ sostituisci host_os_package_official.png con la nuova immagine 1.2.
+E. Commit consigliato: "Update HOST OS landing: UI, pricing, scroll effects and legal pages".
+F. Attendi il deployment automatico Vercel.
+
+CONTROLLI DOPO DEPLOY
+- logo header più grande e non deformato;
+- offerta €49 con €79 barrato;
+- Product Explorer cambia automaticamente durante lo scroll desktop;
+- tab Product Explorer ancora cliccabili;
+- linea Dalla prenotazione all'utile azzurra e luminosa, progressiva allo scroll;
+- reveal on scroll delle sezioni;
+- nuova confezione HOST OS 1.2;
+- /termini, /privacy e /rimborsi raggiungibili dal footer;
+- test mobile.
