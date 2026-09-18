@@ -1,0 +1,14 @@
+HOST OS SITE 1.2.2 — aggiornamento
+
+SOSTITUISCI nella root GitHub:
+- index.html
+- styles.css
+- script.js
+
+AGGIUNGI dentro assets/:
+- included_system_dark.png
+
+Le pagine legali e gli altri file della 1.2.1 restano invariati.
+
+Dopo il commit su main, Vercel dovrebbe ridistribuire automaticamente.
+Hard refresh consigliato dopo il deploy: Ctrl+F5 / Ctrl+Shift+R.

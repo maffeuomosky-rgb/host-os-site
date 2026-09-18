@@ -1,0 +1,17 @@
+HOST OS SITE 1.2.3 — ISTRUZIONI GITHUB
+
+1. Estrai questo ZIP.
+2. Apri la cartella estratta.
+3. Carica TUTTO IL CONTENUTO nella root del repository GitHub `host-os-site`.
+4. Se GitHub segnala file con lo stesso nome, sostituiscili.
+5. Elimina dal repository eventuali vecchi file non più presenti in questo master.
+6. Commit consigliato:
+   HOST OS site 1.2.3 complete update
+7. Attendi il redeploy automatico Vercel.
+8. Apri il sito e fai Ctrl+F5 / Ctrl+Shift+R.
+
+IMPORTANTE:
+La nuova immagine della sezione "Tutto ciò che ti serve, niente di superfluo" è:
+assets/host_os_box_1_2.png
+
+Il vecchio file included_system_dark.png NON serve più.

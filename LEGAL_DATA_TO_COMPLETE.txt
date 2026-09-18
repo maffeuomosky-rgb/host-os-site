@@ -1,0 +1,20 @@
+HOST OS — DATI LEGALI DA COMPLETARE PRIMA DEL CHECKOUT
+
+Sostituisci in termini.html, privacy.html e rimborsi.html:
+
+[NOME / DENOMINAZIONE]
+[EMAIL SUPPORTO]
+[EMAIL PRIVACY]
+[INDIRIZZO]
+[DATI FISCALI]
+[INSERIRE PROVIDER DEFINITIVO]
+
+Inoltre, nel checkout del provider scelto, verifica con il professionista che segue l'attività:
+- informativa precontrattuale;
+- consenso espresso all'esecuzione immediata del contenuto digitale, se vuoi consegnarlo subito;
+- presa d'atto dell'eventuale perdita del diritto di recesso quando ricorrono i requisiti di legge;
+- conferma dell'ordine su supporto durevole;
+- trattamento dati/privacy del provider;
+- documentazione fiscale applicabile.
+
+Questi file sono bozze operative per l'integrazione del sito e non sostituiscono una verifica legale professionale.
