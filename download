@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.vercel/
+.DS_Store
+*.log
+private-products/
+HOST_OS_1.2_CUSTOMER_PACK_FINAL.zip
