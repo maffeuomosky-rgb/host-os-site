@@ -1,20 +1,20 @@
-# HOST OS 1.3.0 — Configurazione checkout finale
+# HOST OS 1.2 — Configurazione checkout Production Master
 
-Questa è la configurazione della versione commerciale corrente
+Questa è la configurazione della release commerciale congelata.
 
 ## Flusso attivo
 
 Landing → Carrello → Checkout → Ordine → PayPal link oppure Bonifico → `PAGAMENTO_DA_VERIFICARE` → verifica manuale admin → `Conferma pagamento` → e-mail automatica → download protetto
 
-La verifica del denaro rimane manuale. Tutto ciò che viene dopo la conferma è automatizzato
+La verifica del denaro rimane manuale. Tutto ciò che viene dopo la conferma è automatizzato.
 
 ## 1. Variabili ambiente
 
 Configura in Vercel → Project → Settings → Environment Variables
 
 ```env
-PUBLIC_BASE_URL=https://tuo-dominio.it
-SUPPORT_EMAIL=support@tuo-dominio.it
+PUBLIC_BASE_URL=https://host-os-site.vercel.app
+SUPPORT_EMAIL=...
 
 PRODUCT_NAME=HOST OS 1.2
 PRODUCT_PRICE_CENTS=4900
@@ -31,138 +31,124 @@ BANK_ACCOUNT_NAME=...
 BANK_IBAN=...
 
 RESEND_API_KEY=...
-EMAIL_FROM=HOST OS <support@tuo-dominio.it>
+EMAIL_FROM=HOST OS <sender@dominio-verificato.it>
 
 BLOB_READ_WRITE_TOKEN=...
-PRODUCT_BLOB_PATHNAME=products/HOST_OS_1.2_CUSTOMER_PACK_FINAL.zip
+PRODUCT_BLOB_PATHNAME=HOST_OS_CUSTOMER_PACK_PRO_v1.2.zip
 
 ADMIN_SECRET=...
 SESSION_SECRET=...
 ADMIN_SESSION_HOURS=8
 ```
 
-Non inserire segreti direttamente nei file del repository
+Non inserire segreti direttamente nei file del repository.
 
 ## 2. Database
 
-Usa PostgreSQL compatibile con `DATABASE_URL`, ad esempio Neon. Le tabelle vengono create automaticamente al primo utilizzo
+Usa PostgreSQL compatibile con `DATABASE_URL`, attualmente Neon.
 
-Tabelle principali
+Tabelle principali:
 
 - `host_orders`
 - `host_webhook_events`
 
-## 3. PayPal attuale
+## 3. PayPal
 
-La modalità corrente è
+La modalità corrente è:
 
 `PAYPAL_MODE=link`
 
-Inserisci il link pubblico nel valore
+Il cliente apre PayPal dal checkout, paga e poi preme `Ho effettuato il pagamento PayPal`.
 
-`PAYPAL_PAYMENT_URL`
+Questa azione non consegna il prodotto. L'ordine passa a `PAGAMENTO_DA_VERIFICARE`.
 
-Il cliente apre PayPal dal checkout, paga e poi preme `Ho effettuato il pagamento PayPal`
-
-Questa azione non consegna il prodotto. L’ordine passa a `PAGAMENTO_DA_VERIFICARE`
-
-Tu controlli realmente l’incasso su PayPal e solo dopo premi `Conferma pagamento` in `/admin.html`
-
-Gli endpoint PayPal API rimangono nel progetto esclusivamente per un futuro upgrade
+Dopo aver verificato realmente l'incasso, l'admin usa `Conferma pagamento`.
 
 ## 4. Bonifico
 
-Configura
+Configura:
 
 - `BANK_ACCOUNT_NAME`
 - `BANK_IBAN`
 
-HOST OS crea automaticamente una causale del tipo
+HOST OS crea automaticamente una causale univoca collegata all'ordine.
 
-`HOST OS · HOS-YYMMDD-XXXXXXXX`
-
-Il cliente segnala il bonifico ma la consegna parte solo dopo la tua conferma dal pannello admin
+Il cliente segnala il bonifico ma la consegna parte solo dopo la conferma manuale nell'admin.
 
 ## 5. Customer Pack privato
 
-Il file da consegnare è
+File ufficiale:
 
-`HOST_OS_1.2_CUSTOMER_PACK_FINAL.zip`
+`HOST_OS_CUSTOMER_PACK_PRO_v1.2.zip`
 
-Non inserirlo in `assets/` e non pubblicarlo nel repository
+Storage:
 
-Per Vercel Blob privato
+- Vercel Blob privato
+- store `host-os-products`
+- pathname `HOST_OS_CUSTOMER_PACK_PRO_v1.2.zip`
 
-1. crea uno store Blob Private
-2. collega lo store al progetto
-3. ottieni `BLOB_READ_WRITE_TOKEN`
-4. esegui dalla root
+Non inserire il Customer Pack negli asset pubblici o nel repository.
 
-```bash
-npm install
-BLOB_READ_WRITE_TOKEN="..." node scripts/upload-product.mjs "/percorso/HOST_OS_1.2_CUSTOMER_PACK_FINAL.zip"
-```
-
-5. imposta `PRODUCT_BLOB_PATHNAME` con il pathname restituito
+Il link Google Sheets `/copy` è incorporato nel Customer Pack e non deve essere pubblicato nel repository.
 
 ## 6. E-mail
 
-Configura Resend con
+Configura Resend con:
 
 - `RESEND_API_KEY`
 - `EMAIL_FROM`
 - `SUPPORT_EMAIL`
 
-Il sistema invia due tipi di e-mail
+Il sistema invia:
 
-1. conferma ordine con link alla pagina stato, se il provider e-mail è già configurato
+1. conferma ordine, quando prevista dal flusso
 2. consegna finale con link protetto dopo la conferma del pagamento
 
-Se la mail finale fallisce, l’ordine resta pagato e il cliente può comunque scaricare HOST OS dalla propria pagina ordine quando il download è stato generato
+La configurazione tecnica è testata. Per inviare a clienti arbitrari in produzione serve un dominio mittente verificato in Resend. Il sender `onboarding@resend.dev` è solo per test.
+
+Se l'e-mail finale fallisce, l'ordine resta pagato e il cliente può comunque scaricare HOST OS dalla pagina ordine se il download è stato generato.
 
 ## 7. Download protetto
 
-Il prodotto non è pubblico
-
-La consegna finale usa
-
-- link e-mail con token casuale
-- pagina ordine autenticata dal token cliente
+- token casuale
+- pagina ordine autenticata da customer token
 - scadenza predefinita 7 giorni
 - massimo 5 download
-
-Il pannello admin permette di rigenerare il link e reinviare l’e-mail
+- rigenerazione link disponibile dall'admin
+- reinvio e-mail disponibile dall'admin
 
 ## 8. Admin
 
-Apri
+Apri:
 
 `/admin.html`
 
-Configura due valori diversi e lunghi
-
-- `ADMIN_SECRET`
-- `SESSION_SECRET`
-
-Azioni disponibili
+Azioni validate:
 
 - Conferma pagamento
-- Reinvia e-mail di consegna
-- Rigenera link download e copialo
-- Annulla ordine
+- Reinvia e-mail
+- Rigenera link
+- Annulla
 - Segna rimborsato
 
-`Segna rimborsato` aggiorna il registro e revoca i download. Il rimborso finanziario va eseguito separatamente nel metodo di pagamento
+`Segna rimborsato` aggiorna lo stato e revoca il download. L'eventuale movimento finanziario di rimborso va eseguito separatamente nel metodo di pagamento.
 
-## 9. Controllo prima del lancio
+## 9. Health check
 
-Visita
+Apri:
 
 `/api/health`
 
-Devono risultare configurati database, PayPal, bonifico, e-mail, prodotto e admin
+Al freeze HOST OS 1.2 risultano configurati:
 
-Poi esegui due test completi
+- database
+- PayPal
+- bonifico
+- e-mail
+- prodotto
+- admin
+
+## 10. Test end-to-end validati
 
 ### PayPal
 
@@ -172,7 +158,14 @@ Checkout → PayPal → Ho effettuato il pagamento → Admin → Conferma → E-
 
 Checkout → dati bonifico → Ho effettuato il bonifico → Admin → Conferma → E-mail → Pagina ordine → Download
 
-## 10. Endpoint principali
+### Azioni amministrative
+
+- Reinvia e-mail: OK
+- Rigenera link: OK
+- Annulla: OK
+- Segna rimborsato + revoca download: OK
+
+## 11. Endpoint principali
 
 - `GET /api/config`
 - `POST /api/orders`
@@ -187,7 +180,7 @@ Checkout → dati bonifico → Ho effettuato il bonifico → Admin → Conferma 
 - `POST /api/admin-action`
 - `GET /api/health`
 
-## 11. Sicurezza
+## 12. Sicurezza
 
 - Customer Pack fuori dagli asset pubblici
 - token download memorizzato solo come hash
@@ -199,10 +192,10 @@ Checkout → dati bonifico → Ho effettuato il bonifico → Admin → Conferma 
 - rate limit best-effort su creazione ordine/login
 - controllo Origin sul checkout
 
-## 12. Passaggio futuro a PayPal API
+## 13. Upgrade futuri
 
-Quando vorrai automatizzare anche la verifica PayPal puoi impostare `PAYPAL_MODE=api` e configurare Client ID, Secret e Webhook ID già supportati dal progetto
+Non modificare HOST OS 1.2 durante la replica su Seller OS.
 
+Eventuali correzioni future vanno versionate come `1.2.x` o release successiva.
 
-## Stato configurazione pagamenti 1.3.1
-Il link PayPal pubblico, il beneficiario del bonifico e l’IBAN sono stati ricevuti e predisposti nella configurazione ambiente. Prima del deploy di produzione copiare i valori di `.env.example` nelle Environment Variables del progetto Vercel.
+L'automazione della verifica PayPal tramite API/webhook resta un upgrade futuro opzionale.
